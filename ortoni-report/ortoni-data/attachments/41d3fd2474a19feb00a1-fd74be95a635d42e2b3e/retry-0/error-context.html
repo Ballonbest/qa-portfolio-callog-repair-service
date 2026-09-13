@@ -1,0 +1,105 @@
+<h1>Instructions</h1>
+<ul>
+<li>Following Playwright test failed.</li>
+<li>Explain why, be concise, respect Playwright best practices.</li>
+<li>Provide a snippet of code with the fix, if possible.</li>
+</ul>
+<h1>Test info</h1>
+<ul>
+<li>Name: login.spec.ts &gt;&gt; TC_LOGIN_POS_001</li>
+<li>Location: tests\login.spec.ts:17:5</li>
+</ul>
+<h1>Error details</h1>
+<pre><code>Error: expect(page).toHaveURL(expected) failed
+
+Expected: &quot;https://samart-calllog.netserviceth.com/admin/d0w4suxz4qa&quot;
+Received: &quot;https://samart-calllog.netserviceth.com/signin?redirect=/admin&quot;
+Timeout:  5000ms
+
+Call log:
+  - Expect &quot;toHaveURL&quot; with timeout 5000ms
+    14 × locator resolved to &lt;html class=&quot;webkit chrome chrome153 win js orientation_landscape maxw_1280 non-retina&quot;&gt;…&lt;/html&gt;
+       - unexpected value &quot;https://samart-calllog.netserviceth.com/signin?redirect=/admin&quot;
+</code></pre>
+<pre><code class="language-yaml">- heading &quot;Customer Service&quot; [level=1]
+- button &quot;block-item-Input&quot;:
+  - textbox &quot;Username/Email&quot;: cc_mobile2@samtel.com
+- button &quot;block-item-Password&quot;:
+  - textbox &quot;Password&quot;: Ddol01234
+  - img &quot;eye-invisible&quot;
+- button &quot;action-Action-Sign in&quot;: Sign in
+- link &quot;Create an account&quot;:
+  - /url: /signup?name=basic
+- text: Powered by
+- link &quot;NocoBase&quot;:
+  - /url: https://www.nocobase.com
+</code></pre>
+<h1>Test source</h1>
+<pre><code class="language-ts">  1  | import { test, expect } from &quot;@playwright/test&quot;;
+  2  | 
+  3  | let goto_CustomerService = &quot;https://samart-calllog.netserviceth.com/signin?redirect=/admin&quot;;
+  4  | const locatorEmail = &quot;Username/Email&quot;;
+  5  | const locatorPassword = &quot;Password&quot;;
+  6  | const username = process.env.TEST_USER;
+  7  | const password = process.env.TEST_PASSWORD;
+  8  | 
+  9  | if (!username || !password) {
+  10 |   throw new Error(&quot;Missing TEST_USER or TEST_PASSWORD in .env&quot;);
+  11 | }
+  12 | 
+  13 | test.beforeEach(async ({ page }) =&gt; {
+  14 |   await page.goto(goto_CustomerService);
+  15 | });
+  16 | 
+  17 | test(&quot;TC_LOGIN_POS_001&quot;, async ({ page }) =&gt; {
+  18 |   await page.getByPlaceholder(locatorEmail).fill(username);
+  19 |   await page.getByPlaceholder(locatorPassword).fill(password);
+  20 |   await page.getByRole(&quot;button&quot;, { name: &quot;Sign in&quot; }).click();
+  21 | 
+&gt; 22 |   await expect(page).toHaveURL(&quot;https://samart-calllog.netserviceth.com/admin/d0w4suxz4qa&quot;);
+     |                      ^ Error: expect(page).toHaveURL(expected) failed
+  23 |   await expect(page).toHaveTitle(&quot;🖨 Repair Service&quot;);
+  24 | });
+  25 | 
+  26 | test(&quot;TC_LOGIN_NEG_001&quot;, async ({ page }) =&gt; {
+  27 |   await page.getByPlaceholder(locatorEmail).fill(&quot;invalidUser&quot;);
+  28 |   await page.getByPlaceholder(locatorPassword).fill(&quot;invalid123&quot;);
+  29 |   await page.getByRole(&quot;button&quot;, { name: &quot;Sign in&quot; }).click();
+  30 | 
+  31 |   await expect(page.getByText(&quot;The username/email or password is incorrect, please re-enter&quot;)).toBeVisible();
+  32 |   await expect(page.getByText(&quot;Customer Service&quot;)).toBeVisible();
+  33 |   await expect(page).toHaveURL(goto_CustomerService);
+  34 | });
+  35 | 
+  36 | test(&quot;TC_LOGIN_UI_001&quot;, async ({ page }) =&gt; {
+  37 |   const toggleHide = page.getByRole(&quot;img&quot;, { name: &quot;eye-invisible&quot; });
+  38 |   const toggleEye = page.getByRole(&quot;img&quot;, { name: &quot;eye&quot; });
+  39 |   const passwordInput = page.getByPlaceholder(locatorPassword);
+  40 | 
+  41 |   await passwordInput.fill(&quot;Ddol01234#&quot;);
+  42 |   await expect(passwordInput).toHaveAttribute(&quot;type&quot;, &quot;password&quot;);
+  43 | 
+  44 |   await toggleHide.click();
+  45 |   await expect(passwordInput).toHaveAttribute(&quot;type&quot;, &quot;text&quot;);
+  46 | 
+  47 |   await toggleEye.click();
+  48 |   await expect(passwordInput).toHaveAttribute(&quot;type&quot;, &quot;password&quot;);
+  49 | });
+  50 | 
+  51 | test(&quot;TC_LOGIN_SEC_001 - backend rejects SQL injection&quot;, async ({ request }) =&gt; {
+  52 |   const response = await request.post(&quot;https://samart-calllog.netserviceth.com/&lt;LOGIN_API&gt;&quot;, {
+  53 |     data: {
+  54 |       username: &quot;&#39; OR &#39;1&#39;=&#39;1&quot;,
+  55 |       password: &quot;anything&quot;,
+  56 |     },
+  57 |   });
+  58 | 
+  59 |   expect(response.status()).toBeLessThan(500);
+  60 |   expect(response.status()).not.toBe(401);
+  61 | 
+  62 |   const body = await response.text();
+  63 | 
+  64 |   expect(body).not.toMatch(/sql syntax|database error|stack trace|internal server error/i);
+  65 | });
+  66 | 
+</code></pre>
