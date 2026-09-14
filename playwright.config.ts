@@ -16,31 +16,30 @@ const reportConfig: OrtoniReportConfig = {
 export default defineConfig({
   testDir: "./tests",
 
-  /* Run tests in files in parallel */
   fullyParallel: true,
 
-  /* Fail the build on CI if you accidentally left test.only */
   forbidOnly: !!process.env.CI,
 
-  /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
 
-  /* Use one worker on CI */
   workers: process.env.CI ? 1 : undefined,
 
-  /* Reporter */
-  reporter: [["ortoni-report", reportConfig]],
+  reporter: process.env.CI
+    ? [["html", { outputFolder: "playwright-report", open: "never" }]]
+    : [["ortoni-report", reportConfig]],
 
-  /* Shared settings */
   use: {
-    trace: "on-first-retry",
-  },
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+},
 
-  /* Browsers */
-  projects: [
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+projects: [
+  {
+    name: "chrome",
+    use: {
+      ...devices["Desktop Chrome"],
+      channel: "chrome",
     },
-  ],
+  },
+],
 });

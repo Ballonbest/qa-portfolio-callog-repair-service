@@ -3,11 +3,11 @@ import { test, expect } from "@playwright/test";
 let goto_CustomerService = "https://samart-calllog.netserviceth.com/signin?redirect=/admin";
 const locatorEmail = "Username/Email";
 const locatorPassword = "Password";
-const username = process.env.TEST_USER;
-const password = process.env.TEST_PASSWORD;
+const userHelpdesk = process.env.HELPDESK_USER;
+const passHelpdesk = process.env.HELPDESK_PASSWORD;
 
-if (!username || !password) {
-  throw new Error("Missing TEST_USER or TEST_PASSWORD in .env");
+if (!userHelpdesk || !passHelpdesk) {
+  throw new Error("Missing HELPDESK_USER or HELPDESK_PASSWORD in .env");
 }
 
 test.beforeEach(async ({ page }) => {
@@ -15,11 +15,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("TC_LOGIN_POS_001", async ({ page }) => {
-  await page.getByPlaceholder(locatorEmail).fill(username);
-  await page.getByPlaceholder(locatorPassword).fill(password);
+  await page.getByPlaceholder(locatorEmail).fill(userHelpdesk);
+  await page.getByPlaceholder(locatorPassword).fill(passHelpdesk);
   await page.getByRole("button", { name: "Sign in" }).click();
 
-  await expect(page).toHaveURL("https://samart-calllog.netserviceth.com/admin/d0w4suxz4qa");
+  await expect(page).toHaveURL(/\/admin\/d0w4suxz4qa$/)
   await expect(page).toHaveTitle("🖨 Repair Service");
 });
 
