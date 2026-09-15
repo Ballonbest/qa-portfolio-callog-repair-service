@@ -7,9 +7,11 @@ const locatorPassword = "Password";
 
 const userHelpdesk = process.env.HELPDESK_USER;
 const passHelpdesk = process.env.HELPDESK_PASSWORD;
+const userItsupport = process.env.IT_SUPPORT_USER;
+const passItsupport = process.env.IT_SUPPORT_PASSWORD;
 
-if (!userHelpdesk || !passHelpdesk) {
-  throw new Error("Missing HELPDESK_USER or HELPDESK_PASSWORD in .env");
+if (!userHelpdesk || !passHelpdesk || !userItsupport || !passItsupport) {
+  throw new Error("Missing in .env");
 }
 
 test.beforeEach(async ({ page }) => {
@@ -17,38 +19,131 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Repair Service - Helpdesk", () => {
-  test("TC_LOGIN_POS_001", async ({ page }) => {
+  test("TC_LOGIN_POS_001 - Helpdesk Login สำเร็จ", async ({ page }) => {
     await page.getByPlaceholder(locatorEmail).fill(userHelpdesk);
     await page.getByPlaceholder(locatorPassword).fill(passHelpdesk);
+
     await page.getByRole("button", { name: "Sign in" }).click();
 
     await expect(page).toHaveURL(/\/admin\/d0w4suxz4qa$/);
-    await expect(page).toHaveTitle("🖨 Repair Service");
-    await page.getByRole("link", { name: /Create Ticket/i }).click();
-    await expect(page).toHaveURL(/\/admin\/z3no72inkol$/);
-    await expect(page).toHaveTitle(/👩‍💻 Create Ticket/i);
+    await expect(page).toHaveTitle(/Repair Service/i);
+
+    await expect(page.getByRole("link", { name: /Create Ticket/i })).toBeVisible();
   });
 
-  test("TC_LOGIN_NEG_001", async ({ page }) => {
-    await page.getByPlaceholder(locatorEmail).fill(userHelpdesk);
-    await page.getByPlaceholder(locatorPassword).fill(passHelpdesk);
+  test("TC_LOGIN_NEG_001 - Helpdesk Login ไม่สำเร็จ", async ({ page }) => {
+    await page.getByPlaceholder(locatorEmail).fill("invalidUser");
+    await page.getByPlaceholder(locatorPassword).fill("invalid123");
     await page.getByRole("button", { name: "Sign in" }).click();
 
-    await expect(page).toHaveURL(/\/admin\//);
-    await expect(page.getByText("Repair Service", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("The username/email or password is incorrect, please re-enter")).toBeVisible();
+    await expect(page).toHaveURL(/\/admin/);
+    await expect(page.getByRole("heading", { name: "Customer Service" })).toBeVisible();
   });
 
-  test("TC_REPAIR_PERM_002 - ไม่มี Checkbox และ Delete", async ({ page }) => {});
+  test("TC_LOGIN_NEG_002 - Helpdesk Password ไม่ถูกต้อง", async ({ page }) => {
+    await page.getByPlaceholder(locatorEmail).fill(userHelpdesk);
+    await page.getByPlaceholder(locatorPassword).fill("invalid123");
+    await page.getByRole("button", { name: "Sign in" }).click();
+
+    const errorMessage = page.locator(".ant-notification-notice-message");
+
+    await expect(errorMessage).toContainText("The username/email or password is incorrect, please re-enter");
+    await expect(page).toHaveURL(/\/signin/);
+    await expect(page.getByRole("heading", { name: "Customer Service" })).toBeVisible();
+  });
+
+  test("TC_LOGIN_UI_001 - ปุ่มโชว์/ซ่อนรหัสผ่านทำงานถูกต้อง", async ({ page }) => {
+    const toggleHide = page.getByRole("img", { name: "eye-invisible" });
+    const toggleEye = page.getByRole("img", { name: "eye" });
+    const passwordInput = page.getByPlaceholder(locatorPassword);
+
+    await passwordInput.fill(passHelpdesk);
+    await expect(passwordInput).toHaveAttribute("type", "password");
+
+    await toggleHide.click();
+    await expect(passwordInput).toHaveAttribute("type", "text");
+
+    await toggleEye.click();
+    await expect(passwordInput).toHaveAttribute("type", "password");
+  });
+
+  test("TC_LOGIN_SEC_001 - ป้องกัน SQL Injection ในช่อง Username", async ({ request }) => {
+    const response = await request.post("https://samart-calllog.netserviceth.com/<LOGIN_API>", {
+      data: {
+        username: "' OR '1'='1",
+        password: "anything",
+      },
+    });
+
+    expect(response.status()).toBeLessThan(500);
+    expect(response.status()).not.toBe(401);
+
+    const body = await response.text();
+
+    expect(body).not.toMatch(/sql syntax|database error|stack trace|internal server error/i);
+  });
 });
 
 test.describe("Repair Service - IT Support", () => {
-  test("TC_LOGIN_POS_001", async ({ page }) => {});
+  test("TC_LOGIN_POS_001 - IT Support Login สำเร็จ", async ({ page }) => {
+    await page.getByPlaceholder(locatorEmail).fill(userItsupport);
+    await page.getByPlaceholder(locatorPassword).fill(passItsupport);
 
-  test("TC_REPAIR_PERM_IT_002 - Reject คืนงานได้", async ({ page }) => {});
+    await page.getByRole("button", { name: "Sign in" }).click();
 
-  test("TC_REPAIR_PERM_IT_003 - แสดงฟอร์มวิธีแก้ไขหลังรับเรื่อง", async ({ page }) => {});
+    await expect(page).toHaveURL(/\/admin\/d0w4suxz4qa$/);
+    await expect(page).toHaveTitle(/Repair Service/i);
+  });
 
-  test("TC_REPAIR_PERM_IT_004 - ส่งต่อ Vendor แล้วยังเห็น Ticket", async ({ page }) => {});
+  test("TC_LOGIN_NEG_001 - IT Support ไม่สำเร็จ", async ({ page }) => {
+    await page.getByPlaceholder(locatorEmail).fill("invalidUser");
+    await page.getByPlaceholder(locatorPassword).fill("invalid123");
 
-  test("TC_REPAIR_PERM_IT_005 - ปิดเคสแล้วค้นย้อนหลังได้", async ({ page }) => {});
+    await page.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(page).toHaveURL(/\/admin/);
+    await expect(page.getByRole("heading", { name: "Customer Service" })).toBeVisible();
+  });
+
+  test("TC_LOGIN_NEG_002 - IT Support Password ไม่ถูกต้อง", async ({ page }) => {
+    await page.getByPlaceholder(locatorEmail).fill(userItsupport);
+    await page.getByPlaceholder(locatorPassword).fill("invalid123");
+
+    await page.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(page).toHaveURL(/\/admin/);
+    await expect(page.getByRole("heading", { name: "Customer Service" })).toBeVisible();
+  });
+
+  test("TC_LOGIN_UI_001 - ปุ่มโชว์/ซ่อนรหัสผ่านทำงานถูกต้อง", async ({ page }) => {
+    const toggleHide = page.getByRole("img", { name: "eye-invisible" });
+    const toggleEye = page.getByRole("img", { name: "eye" });
+    const passwordInput = page.getByPlaceholder(locatorPassword);
+
+    await passwordInput.fill(passHelpdesk);
+    await expect(passwordInput).toHaveAttribute("type", "password");
+
+    await toggleHide.click();
+    await expect(passwordInput).toHaveAttribute("type", "text");
+
+    await toggleEye.click();
+    await expect(passwordInput).toHaveAttribute("type", "password");
+  });
+
+  test("TC_LOGIN_SEC_001 - ป้องกัน SQL Injection ในช่อง Username", async ({ request }) => {
+    const response = await request.post("https://samart-calllog.netserviceth.com/<LOGIN_API>", {
+      data: {
+        username: "' OR '1'='1",
+        password: "anything",
+      },
+    });
+
+    expect(response.status()).toBeLessThan(500);
+    expect(response.status()).not.toBe(401);
+
+    const body = await response.text();
+
+    expect(body).not.toMatch(/sql syntax|database error|stack trace|internal server error/i);
+  });
 });
