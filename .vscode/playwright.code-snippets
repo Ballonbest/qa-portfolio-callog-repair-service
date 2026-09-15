@@ -1,0 +1,64 @@
+{
+  "Playwright test": {
+    "prefix": "pwtest",
+    "body": [
+      "test(\"${1:test name}\", async ({ page }) => {",
+      "  $0",
+      "});"
+    ],
+    "description": "Create a Playwright test"
+  },
+  "Playwright describe": {
+    "prefix": "pwdescribe",
+    "body": [
+      "test.describe(\"${1:feature}\", () => {",
+      "  $0",
+      "});"
+    ],
+    "description": "Create a Playwright test suite"
+  },
+  "Playwright beforeEach": {
+    "prefix": "pwbefore",
+    "body": [
+      "test.beforeEach(\"${1:setup}\", async ({ page }) => {",
+      "  $0",
+      "});"
+    ],
+    "description": "Create a Playwright beforeEach hook"
+  },
+  "Playwright navigation": {
+    "prefix": "pwgoto",
+    "body": [
+      "await page.goto(\"${1:https://example.com}\");$0"
+    ],
+    "description": "Navigate to a URL"
+  },
+  "Playwright role locator": {
+    "prefix": "pwrole",
+    "body": [
+      "page.getByRole(\"${1:button}\", { name: \"${2:label}\" })$0"
+    ],
+    "description": "Create a role-based locator"
+  },
+  "Playwright placeholder locator": {
+    "prefix": "pwplaceholder",
+    "body": [
+      "page.getByPlaceholder(\"${1:placeholder}\")$0"
+    ],
+    "description": "Create a placeholder-based locator"
+  },
+  "Playwright visible assertion": {
+    "prefix": "pwvisible",
+    "body": [
+      "await expect(${1:locator}).toBeVisible();$0"
+    ],
+    "description": "Assert that a locator is visible"
+  },
+  "Playwright URL assertion": {
+    "prefix": "pwurl",
+    "body": [
+      "await expect(page).toHaveURL(/${1:pattern}/);$0"
+    ],
+    "description": "Assert the current page URL"
+  }
+}

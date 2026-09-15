@@ -1,0 +1,305 @@
+<h1>Instructions</h1>
+<ul>
+<li>Following Playwright test failed.</li>
+<li>Explain why, be concise, respect Playwright best practices.</li>
+<li>Provide a snippet of code with the fix, if possible.</li>
+</ul>
+<h1>Test info</h1>
+<ul>
+<li>Name: repair-service.spec.ts &gt;&gt; Repair Service - IT Support &gt;&gt; TC_REPAIR_PERM_IT_002</li>
+<li>Location: tests\repair-service.spec.ts:78:7</li>
+</ul>
+<h1>Error details</h1>
+<pre><code>Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole(&#39;dialog&#39;).getByText(&#39;รอรับเรื่อง&#39;)
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect &quot;toBeVisible&quot; getByRole(&#39;dialog&#39;).getByText(&#39;รอรับเรื่อง&#39;) with timeout 5000ms
+  - waiting for getByRole(&#39;dialog&#39;).getByText(&#39;รอรับเรื่อง&#39;)
+</code></pre>
+<pre><code class="language-yaml">- banner
+- banner:
+  - img
+  - heading [level=1]
+  - menu:
+    - menuitem &quot;🖨 Repair Service&quot;:
+      - link &quot;🖨 Repair Service&quot;:
+        - /url: /admin/d0w4suxz4qa
+  - button &quot;bell&quot;:
+    - img &quot;bell&quot;
+  - separator
+  - img &quot;question-circle&quot;
+  - img &quot;user&quot;
+- main:
+  - text: 🖨 Repair Service
+  - tablist:
+    - tab &quot;bars Hardware Repair&quot; [selected]:
+      - img &quot;bars&quot;
+      - text: Hardware Repair
+  - tabpanel &quot;bars Hardware Repair&quot;
+  - status
+  - button [disabled]
+  - button &quot;block-item-CardItem-hardware_form-table&quot;:
+    - text: Repair Service
+    - button &quot;action-Filter.Action-Filter-filter-hardware_form-table&quot;:
+      - img &quot;filter&quot;
+      - text: Filter
+    - button &quot;action-Action-Refresh-refresh-hardware_form-table&quot;:
+      - img &quot;reload&quot;
+      - text: Refresh
+    - button &quot;action-Action-Export-export-hardware_form-table&quot;:
+      - img &quot;cloud-download&quot;
+      - text: Export
+    - status
+    - table:
+      - rowgroup:
+        - row &quot;Select all Ticket No. วันที่-เวลา Serial Number อุปกรณ์ รุ่น หน่วยงาน ผู้รับผิดชอบ สถานะ&quot;:
+          - columnheader &quot;Select all&quot;:
+            - checkbox &quot;Select all&quot;
+          - columnheader &quot;Ticket No.&quot;:
+            - button &quot;Ticket No.&quot;
+          - columnheader &quot;วันที่-เวลา&quot;:
+            - button &quot;วันที่-เวลา&quot;
+          - columnheader &quot;Serial Number&quot;:
+            - button &quot;Serial Number&quot;
+          - columnheader &quot;อุปกรณ์&quot;:
+            - button &quot;อุปกรณ์&quot;
+          - columnheader &quot;รุ่น&quot;:
+            - button &quot;รุ่น&quot;
+          - columnheader &quot;หน่วยงาน&quot;:
+            - button &quot;หน่วยงาน&quot;
+          - columnheader &quot;ผู้รับผิดชอบ&quot;:
+            - button &quot;ผู้รับผิดชอบ&quot;
+          - columnheader &quot;สถานะ&quot;:
+            - button &quot;สถานะ&quot;
+          - columnheader
+      - status
+      - rowgroup:
+        - row &quot;table-index-1 X20260915132750 2026-09-15 13:27:50 022F3NAK800253 จอแสดงภาพระบบบัตรคิว ขนาดไม่น้อยกว่า 40 นิ้ว พร้อมอุปกรณ์ยึดติดผนัง Samsung / Hospitality Display Series สำนักงานที่ดินกรุงเทพมหานคร คืนงาน&quot;:
+          - cell &quot;table-index-1&quot;:
+            - button &quot;table-index-1&quot;: &quot;1&quot;
+          - cell &quot;X20260915132750&quot;:
+            - button &quot;X20260915132750&quot;
+          - cell &quot;2026-09-15 13:27:50&quot;:
+            - button &quot;2026-09-15 13:27:50&quot;
+          - cell &quot;022F3NAK800253&quot;:
+            - button &quot;022F3NAK800253&quot;
+          - cell &quot;จอแสดงภาพระบบบัตรคิว ขนาดไม่น้อยกว่า 40 นิ้ว พร้อมอุปกรณ์ยึดติดผนัง&quot;:
+            - button &quot;จอแสดงภาพระบบบัตรคิว ขนาดไม่น้อยกว่า 40 นิ้ว พร้อมอุปกรณ์ยึดติดผนัง&quot;
+          - cell &quot;Samsung / Hospitality Display Series&quot;:
+            - button &quot;Samsung / Hospitality Display Series&quot;
+          - cell &quot;สำนักงานที่ดินกรุงเทพมหานคร&quot;:
+            - button &quot;สำนักงานที่ดินกรุงเทพมหานคร&quot;
+          - cell:
+            - button
+          - cell &quot;คืนงาน&quot;:
+            - button &quot;คืนงาน&quot;
+          - cell
+      - status
+    - list:
+      - listitem:
+        - button &quot;left&quot; [disabled]:
+          - img &quot;left&quot;
+        - text: &quot;1&quot;
+      - listitem:
+        - button &quot;right&quot; [disabled]:
+          - img &quot;right&quot;
+      - listitem:
+        - combobox &quot;ขนาดหน้า&quot;
+        - text: 100 / หน้า
+  - button [disabled]
+  - button [disabled]
+  - button [disabled]
+  - status
+- status
+- dialog &quot;View record&quot;:
+  - button &quot;Close&quot;:
+    - img &quot;close&quot;
+  - tablist:
+    - tab &quot;solution Tier 2 Support&quot; [selected]:
+      - img &quot;solution&quot;
+      - text: Tier 2 Support
+  - tabpanel &quot;solution Tier 2 Support&quot;:
+    - button [disabled]
+    - button &quot;block-item-CardItem-hardware_form-details&quot;:
+      - text: รายละเอียด Ticket
+      - button &quot;action-Action-รับเรื่อง-customize:update-hardware_form-details&quot;:
+        - img &quot;audit&quot;
+        - text: รับเรื่อง
+      - status
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.ticket_no-Ticket No.&quot;: &quot;Ticket No. : X20260915132750&quot;
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.createdBy-เปิดงานโดย&quot;: &quot;เปิดงานโดย : คอลเซ็นเตอร์&quot;
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.createdAt-วันที่-เวลา&quot;: &quot;วันที่-เวลา : 2026-09-15 13:27:50&quot;
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.status-สถานะ&quot;: &quot;สถานะ : คืนงาน&quot;
+      - button [disabled]
+      - button [disabled]
+      - status
+    - button [disabled]
+    - button [disabled]
+    - button &quot;block-item-CardItem-hardware_form-details&quot;:
+      - text: รายละเอียดแจ้งซ่อม
+      - status
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.land_db-หน่วยงาน&quot;: &quot;หน่วยงาน : สำนักงานที่ดินกรุงเทพมหานคร&quot;
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_DB.hard_id-Serial Number&quot;: &quot;Serial Number : 022F3NAK800253&quot;
+      - button [disabled]
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_DB.hard_name-อุปกรณ์&quot;: &quot;อุปกรณ์ : จอแสดงภาพระบบบัตรคิว ขนาดไม่น้อยกว่า 40 นิ้ว พร้อมอุปกรณ์ยึดติดผนัง&quot;
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_DB.hard_model-ยี่ห้อ / รุ่น&quot;: &quot;ยี่ห้อ / รุ่น : Samsung / Hospitality Display Series&quot;
+      - button [disabled]
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_DB.hard_status-สถานะประกัน&quot;: &quot;สถานะประกัน : หมดการรับประกัน&quot;
+      - button [disabled]
+      - status
+    - button [disabled]
+    - button &quot;block-item-CardItem-hardware_form-details&quot;:
+      - text: รายละเอียดผู้แจ้ง
+      - status
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.f_ou01rg480ks-ชื่อผู้แจ้ง&quot;: ชื่อผู้แจ้ง Oak
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.reporter_phone-เบอร์ติดต่อ&quot;: เบอร์ติดต่อ 02020202020
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-details-hardware_form.description-อาการ / รายละเอียดปัญหา&quot;: อาการ / รายละเอียดปัญหา ไม่สามารถใช้งานได้
+      - button [disabled]
+      - status
+    - button &quot;block-item-CardItem-hardware_form-form&quot;:
+      - text: Tier 2 ขั้นตอนตรวจสอบ
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button [disabled]
+      - button &quot;block-item-CollectionField-hardware_form-form-hardware_form.hardware_additional-วิธีแก้ไข&quot;:
+        - text: &quot;* วิธีแก้ไข :&quot;
+        - textbox [disabled]
+      - button [disabled]
+      - status
+      - status
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - button [disabled]
+    - status
+  - status
+</code></pre>
+<h1>Test source</h1>
+<pre><code class="language-ts">  1  | import { test, expect } from &quot;@playwright/test&quot;;
+  2  | 
+  3  | const UrlRepairService = &quot;https://samart-calllog.netserviceth.com/admin/d0w4suxz4qa&quot;;
+  4  | const locatorEmail = &quot;Username/Email&quot;;
+  5  | const locatorPassword = &quot;Password&quot;;
+  6  | 
+  7  | const userHelpdesk = process.env.HELPDESK_USER;
+  8  | const passHelpdesk = process.env.HELPDESK_PASSWORD;
+  9  | const userItsupport = process.env.IT_SUPPORT_USER;
+  10 | const passItsupport = process.env.IT_SUPPORT_PASSWORD;
+  11 | 
+  12 | test.describe(&quot;Repair Service - Helpdesk&quot;, () =&gt; {
+  13 |   test.beforeEach(&quot;gotoUrl&quot;, async ({ page }) =&gt; {
+  14 |     await page.goto(UrlRepairService);
+  15 | 
+  16 |     await page.getByPlaceholder(locatorEmail).fill(userHelpdesk!);
+  17 |     await page.getByPlaceholder(locatorPassword).fill(passHelpdesk!);
+  18 |     await page.getByRole(&quot;button&quot;, { name: &quot;Sign in&quot; }).click();
+  19 | 
+  20 |     await expect(page).toHaveURL(/\/admin\//);
+  21 |   });
+  22 | 
+  23 |   test(&quot;TC_REPAIR_PERM_001&quot;, async ({ page }) =&gt; {
+  24 |     await page.getByText(&quot;X20260915132750&quot;, { exact: true }).click();
+  25 | 
+  26 |     const ticketDetail = page.getByRole(&quot;dialog&quot;);
+  27 | 
+  28 |     await expect(ticketDetail).toBeVisible();
+  29 |     await expect(ticketDetail.getByText(&quot;รายละเอียด Ticket&quot;)).toBeVisible();
+  30 | 
+  31 |     await expect(page.getByText(/Unauthenticated/i)).toHaveCount(0);
+  32 | 
+  33 |     await expect(ticketDetail.getByRole(&quot;button&quot;, { name: &quot;รับเรื่อง&quot; })).toHaveCount(0);
+  34 |   });
+  35 | 
+  36 |   test(&quot;TC_REPAIR_UI_001&quot;, async ({ page }) =&gt; {
+  37 |     await page.getByRole(&quot;button&quot;, { name: &quot;Export&quot; }).click();
+  38 | 
+  39 |     const exportDialog = page.getByRole(&quot;dialog&quot;);
+  40 | 
+  41 |     await expect(exportDialog).toBeVisible();
+  42 | 
+  43 |     const downloadPromise = page.waitForEvent(&quot;download&quot;);
+  44 | 
+  45 |     await exportDialog.getByRole(&quot;button&quot;, { name: &quot;Start export&quot; }).click();
+  46 | 
+  47 |     const download = await downloadPromise;
+  48 | 
+  49 |     expect(download.suggestedFilename()).toMatch(/\.xlsx$/);
+  50 |   });
+  51 | 
+  52 |   test(&quot;TC_REPAIR_PERM_002&quot;, async ({ page }) =&gt; {
+  53 |     await expect(page.getByRole(&quot;button&quot;, { name: &quot;Delete&quot; })).not.toBeVisible();
+  54 |   });
+  55 | });
+  56 | 
+  57 | test.describe(&quot;Repair Service - IT Support&quot;, () =&gt; {
+  58 |   test.beforeEach(&quot;gotoUrl&quot;, async ({ page }) =&gt; {
+  59 |     await page.goto(UrlRepairService);
+  60 | 
+  61 |     await page.getByPlaceholder(locatorEmail).fill(userItsupport!);
+  62 |     await page.getByPlaceholder(locatorPassword).fill(passItsupport!);
+  63 |     await page.getByRole(&quot;button&quot;, { name: &quot;Sign in&quot; }).click();
+  64 | 
+  65 |     await expect(page).toHaveURL(/\/admin\//);
+  66 |   });
+  67 | 
+  68 |   test(&quot;TC_REPAIR_PERM_IT_001&quot;, async ({ page }) =&gt; {
+  69 |     await page.getByText(&quot;X20260915132750&quot;, { exact: true }).click();
+  70 | 
+  71 |     const ticketDialog = page.getByRole(&quot;dialog&quot;);
+  72 | 
+  73 |     await expect(ticketDialog).toBeVisible();
+  74 |     await expect(ticketDialog.getByText(&quot;X20260915132750&quot;)).toBeVisible();
+  75 |     await expect(ticketDialog.getByRole(&quot;button&quot;, { name: &quot;รับเรื่อง&quot; })).toBeVisible();
+  76 |   });
+  77 | 
+  78 |   test(&quot;TC_REPAIR_PERM_IT_002&quot;, async ({ page }) =&gt; {
+  79 |     await page.getByText(&quot;X20260915132750&quot;, { exact: true }).click();
+  80 | 
+  81 |     const ticketDialog = page.getByRole(&quot;dialog&quot;);
+  82 | 
+&gt; 83 |     await expect(ticketDialog.getByText(&quot;รอรับเรื่อง&quot;)).toBeVisible();
+     |                                                         ^ Error: expect(locator).toBeVisible() failed
+  84 |     await ticketDialog.getByRole(&quot;button&quot;, { name: &quot;รับเรื่อง&quot; }).click();
+  85 | 
+  86 |     await page.getByText(&quot;X20260915132750&quot;, { exact: true }).click();
+  87 |     await expect(ticketDialog.getByText(&quot;กำลังดำเนินการ&quot;)).toBeVisible();
+  88 |     await ticketDialog.getByRole(&quot;button&quot;, { name: &quot;Reject&quot; }).click();
+  89 | 
+  90 |     await page.getByText(&quot;X20260915132750&quot;, { exact: true }).click();
+  91 |     await expect(ticketDialog.getByText(&quot;คืนงาน&quot;)).toBeVisible();
+  92 |   });
+  93 | });
+  94 | 
+</code></pre>

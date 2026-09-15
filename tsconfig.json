@@ -5,5 +5,15 @@
     "moduleResolution": "nodenext",
     "strict": true,
     "types": ["node"]
+  },
+
+  "Playwright Test": {
+    "prefix": "pwtest",
+    "body": [
+      "test(\"${1:TC_ID} - ${2:Scenario}\", async ({ page }) => {",
+      "  $0",
+      "});"
+    ],
+    "description": "Create Playwright test"
   }
 }
